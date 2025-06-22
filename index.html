@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Israel & Judah Kings Timeline</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    h1 { text-align: center; }
+    .timeline { display: flex; margin: 20px; position: relative; }
+    .kingdom { flex: 1; position: relative; }
+    .king { position: absolute; left: 5%; right: 5%; border: 1px solid #333; padding: 2px; box-sizing: border-box; font-size: 12px; }
+    .israel .king { background: #cce5ff; }
+    .judah .king { background: #ffe5cc; }
+    .axis { width: 2px; background: #000; position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%); }
+  </style>
+</head>
+<body>
+  <h1>Israel & Judah Kings Timeline</h1>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script type="text/babel">
+    const startYear = 931; // division of kingdom
+    const endYear = 586; // fall of Jerusalem
+    const yearHeight = 4; // px per year
+    const totalHeight = (startYear - endYear) * yearHeight;
+
+    const israelKings = [
+      { name: "Jeroboam I", start: 931, end: 910 },
+      { name: "Nadab", start: 910, end: 909 },
+      { name: "Baasha", start: 909, end: 886 },
+      { name: "Elah", start: 886, end: 885 },
+      { name: "Zimri", start: 885, end: 885 },
+      { name: "Omri", start: 885, end: 874 },
+      { name: "Ahab", start: 874, end: 853 },
+      { name: "Ahaziah", start: 853, end: 852 },
+      { name: "Joram", start: 852, end: 841 },
+      { name: "Jehu", start: 841, end: 814 },
+      { name: "Jehoahaz", start: 814, end: 798 },
+      { name: "Joash", start: 798, end: 782 },
+      { name: "Jeroboam II", start: 782, end: 753 },
+      { name: "Zechariah", start: 753, end: 753 },
+      { name: "Shallum", start: 753, end: 753 },
+      { name: "Menahem", start: 753, end: 742 },
+      { name: "Pekahiah", start: 742, end: 740 },
+      { name: "Pekah", start: 740, end: 732 },
+      { name: "Hoshea", start: 732, end: 722 },
+    ];
+
+    const judahKings = [
+      { name: "Rehoboam", start: 931, end: 913 },
+      { name: "Abijah", start: 913, end: 911 },
+      { name: "Asa", start: 911, end: 870 },
+      { name: "Jehoshaphat", start: 870, end: 848 },
+      { name: "Jehoram", start: 848, end: 841 },
+      { name: "Ahaziah", start: 841, end: 841 },
+      { name: "Athaliah", start: 841, end: 835 },
+      { name: "Joash", start: 835, end: 796 },
+      { name: "Amaziah", start: 796, end: 767 },
+      { name: "Uzziah (Azariah)", start: 767, end: 740 },
+      { name: "Jotham", start: 740, end: 732 },
+      { name: "Ahaz", start: 732, end: 716 },
+      { name: "Hezekiah", start: 716, end: 687 },
+      { name: "Manasseh", start: 687, end: 642 },
+      { name: "Amon", start: 642, end: 640 },
+      { name: "Josiah", start: 640, end: 609 },
+      { name: "Jehoahaz", start: 609, end: 609 },
+      { name: "Jehoiakim", start: 609, end: 598 },
+      { name: "Jehoiachin", start: 598, end: 597 },
+      { name: "Zedekiah", start: 597, end: 586 },
+    ];
+
+    function KingdomColumn({ kings, className }) {
+      return (
+        <div className={"kingdom " + className} style={{ height: totalHeight }}>
+          {kings.map(k => {
+            const top = (startYear - k.start) * yearHeight;
+            const height = (k.start - k.end) * yearHeight || yearHeight; // handle same year
+            return (
+              <div
+                key={k.name}
+                className="king"
+                style={{ top, height }}
+                title={`${k.start}-${k.end} BC`}
+              >
+                {k.name}
+                <br />
+                <small>{k.start}-{k.end} BC</small>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <div className="timeline" style={{ height: totalHeight }}>
+          <KingdomColumn kings={israelKings} className="israel" />
+          <div className="axis"></div>
+          <KingdomColumn kings={judahKings} className="judah" />
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
+
